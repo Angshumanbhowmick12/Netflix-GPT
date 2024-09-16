@@ -3,6 +3,7 @@ import Login from "./Login"
 import Browse from "./Browse"
 
 
+
 const Body = () => {
 
     const appRouter=createBrowserRouter([
@@ -17,7 +18,10 @@ const Body = () => {
     ])
   return (
     <div>
+        
         <RouterProvider router={appRouter} />
+        
+        
     </div>
   )
 }

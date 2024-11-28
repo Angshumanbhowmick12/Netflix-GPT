@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { BG_URL, LOGO_URL,SUPPORTED_LANGUAGES } from "../utils/constant";
 import { Link } from "react-router-dom";
 import { toggleSearch } from "../utils/gptSlice";
+import { changeLanguage } from "../utils/configSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -51,6 +52,10 @@ const handleSearch=()=>{
   dispatch(toggleSearch())
 }
 
+const handleChangeLanguage=(e)=>{
+  dispatch(changeLanguage(e.target.value))
+}
+
   return (
     <>
       {user ? (
@@ -80,9 +85,11 @@ const handleSearch=()=>{
               {showGptSearch ? "Home Page" : "GPT Search"}
             </button>
 
-           {showGptSearch&& <select className="m-4 p-2 sm:my-6">
+           {showGptSearch&& <select className="m-4 p-2 sm:my-6"
+            onChange={handleChangeLanguage}
+           >
               {SUPPORTED_LANGUAGES.map((lang)=>(
-                <option key={lang.identifier}>
+                <option key={lang.identifier} value={lang.identifier}>
                   {lang.name}
                 </option>
               ))}

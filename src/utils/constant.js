@@ -20,3 +20,5 @@ export const SUPPORTED_LANGUAGES=[
   {identifier:"spanish",name:"Spanish"},
   {identifier:"Bengali",name:"Bengali"}
 ]
+
+export const GEMINI_API_KEY= import.meta.env.VITE_APP_GEMINI_API_KEY

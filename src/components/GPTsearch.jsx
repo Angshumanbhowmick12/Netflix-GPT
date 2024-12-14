@@ -1,4 +1,5 @@
 import { BG_URL} from "../utils/constant"
+import GPTmovieSuggestions from "./GPTmovieSuggestions"
 import GPTsearchbar from "./GPTsearchbar"
 
 
@@ -10,6 +11,7 @@ const GPTsearch = () => {
         </div>
         <div>
           <GPTsearchbar/>
+          <GPTmovieSuggestions/>
         </div>
     </div>
   )

@@ -8,6 +8,7 @@ import { BG_URL, LOGO_URL,SUPPORTED_LANGUAGES } from "../utils/constant";
 import { Link } from "react-router-dom";
 import { toggleSearch } from "../utils/gptSlice";
 import { changeLanguage } from "../utils/configSlice";
+import { useState } from "react";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -55,69 +56,120 @@ const handleSearch=()=>{
 const handleChangeLanguage=(e)=>{
   dispatch(changeLanguage(e.target.value))
 }
-
+const [isNavOpen, setIsNavOpen] = useState(false);
   return (
     <>
       {user ? (
-        <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex flex-col md:flex-row justify-between">
-          <div className="flex">
-          <img
-            className="w-44 mx-auto md:mx-0"
-            src={LOGO_URL}
-            alt="logo"
-          />
-
-          <div className="text-white m-4 p-2 font-mono">
-         <Link className="p-3">Home</Link>
-         <Link className="p-3">TV Shows</Link>
-         <Link className="p-3">Movies</Link>
-         <Link className="p-3">New&Populer</Link>
-         
-        </div>
-        </div>
-          <div className="flex">
-
-            
-            
-            <button className="text-white p-2 bg-red-700 m-4 rounded-md sm:my-6"
-            onClick={handleSearch}
-            >
-              {showGptSearch ? "Home Page" : "GPT Search"}
-            </button>
-
-           {showGptSearch&& <select className="m-4 p-2 sm:my-6"
-            onChange={handleChangeLanguage}
-           >
-              {SUPPORTED_LANGUAGES.map((lang)=>(
-                <option key={lang.identifier} value={lang.identifier}>
-                  {lang.name}
-                </option>
-              ))}
-            </select>
-           }
-            <img 
-              className="w-12 h-12 mt-3"
-              src={user?.photoURL}
-              alt="user"
+        <div className="absolute w-screen px-4 py-2 bg-gradient-to-b from-black z-10 flex flex-col md:flex-row justify-between items-center">
+          {/* Small Device Layout */}
+          <div className="flex justify-between items-center w-full md:hidden">
+            {/* Logo on Left */}
+            <img
+              className="w-28"
+              src={LOGO_URL}
+              alt="logo"
             />
 
-            <button 
-            className="p-2 m-1 font-bold text-white"
-            onClick={handleSignOut}
-            >SignOut</button>
+            {/* Centered Buttons for Small Devices */}
+            <div className="flex space-x-2">
+              <button
+                className="text-white px-3 py-2 bg-red-700 rounded-md hover:bg-red-800 text-sm"
+                onClick={handleSearch}
+              >
+                {showGptSearch ? "Home Page" : "GPT Search"}
+              </button>
+              <button
+                className="text-white font-bold hover:text-gray-400 text-sm"
+                onClick={handleSignOut}
+              >
+                SignOut
+              </button>
+            </div>
+
+            
+            <button
+              className="text-white text-2xl focus:outline-none"
+              onClick={() => setIsNavOpen(!isNavOpen)}
+            >
+              ☰
+            </button>
           </div>
+
+          {/* Medium and Larger Devices */}
+          <div className="hidden md:flex w-full justify-between items-center">
+            {/* Logo on Left */}
+            <img
+              className="w-44"
+              src={LOGO_URL}
+              alt="logo"
+            />
+
+            {/* Navigation Links */}
+            <div className="text-white space-x-8 font-mono">
+              <Link className="hover:text-gray-400 cursor-pointer">Home</Link>
+              <Link className="hover:text-gray-400 cursor-pointer">TV Shows</Link>
+              <Link className="hover:text-gray-400 cursor-pointer">Movies</Link>
+              <Link className="hover:text-gray-400 cursor-pointer">
+                New & Popular
+              </Link>
+            </div>
+
+            {/* Right Section */}
+            <div className="flex items-center space-x-4">
+              {showGptSearch && (
+                <select
+                  className="text-gray-700 px-2 py-1 rounded-md text-sm"
+                  onChange={handleChangeLanguage}
+                >
+                  {SUPPORTED_LANGUAGES.map((lang) => (
+                    <option key={lang.identifier} value={lang.identifier}>
+                      {lang.name}
+                    </option>
+                  ))}
+                </select>
+              )}
+
+              <button
+                className="text-white px-3 py-2 bg-red-700 rounded-md hover:bg-red-800 text-sm"
+                onClick={handleSearch}
+              >
+                {showGptSearch ? "Home Page" : "GPT Search"}
+              </button>
+
+              <img
+                className="w-10 h-10 rounded-md object-cover border-2 border-white"
+                src={user?.photoURL}
+                alt="user"
+              />
+              <button
+                className="text-white font-bold hover:text-gray-400 text-sm"
+                onClick={handleSignOut}
+              >
+                SignOut
+              </button>
+            </div>
+          </div>
+
+          {/* Accordion Navigation Links for Small Devices */}
+          {isNavOpen && (
+            <div className="flex flex-col md:hidden text-white space-y-2 mt-4">
+              <Link className="hover:text-gray-400 cursor-pointer">Home</Link>
+              <Link className="hover:text-gray-400 cursor-pointer">TV Shows</Link>
+              <Link className="hover:text-gray-400 cursor-pointer">Movies</Link>
+              <Link className="hover:text-gray-400 cursor-pointer">
+                New & Popular
+              </Link>
+            </div>
+          )}
         </div>
       ) : (
-        <div className="absolute w-screen h-screen bg-black bg-opacity-50 z-10">
-          <img
-            className="w-36 lg:w-48 my-2 lg:mx-72 md:w-28 md:mx-4"
-            src={BG_URL}
-            alt="logo"
-          />
+        <div className="absolute w-screen h-screen bg-black bg-opacity-50 z-10 flex justify-center items-center">
+          <img className="w-28 md:w-48" src={BG_URL} alt="logo" />
         </div>
       )}
     </>
   );
 };
+
 
 export default Header;

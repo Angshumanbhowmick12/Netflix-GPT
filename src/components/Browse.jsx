@@ -9,6 +9,7 @@ import Header from "./Header"
 import MainContainer from "./MainContainer"
 import SecondaryContainer from "./SecondaryContainer"
 import GPTsearch from "./GPTsearch"
+import Footer from "./Footer"
 
 
 
@@ -21,9 +22,9 @@ const Browse = () => {
  useTrendingTvShows()
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Header/>
-
+      <div className="flex-grow">
       {showGptSearch ?(
         <GPTsearch/>
       ):(
@@ -32,6 +33,9 @@ const Browse = () => {
        <SecondaryContainer/>
        </>
       )}
+    </div>
+     <Footer/>
+    
       
     </div>
   )
